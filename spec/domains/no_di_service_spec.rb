@@ -8,7 +8,7 @@ RSpec.describe NoDiService do
     before do
       # for us to not have the real logger receive the log message
       # we need to stub the logger, IMO, this is a much more convoluted way of testing and if things aren't stubbed
-      # correctly or it isnt included like the test below, you will be testing the logger along with the service
+      # correctly or it isn't included like the test below, you will be testing the logger along with the service
       allow_any_instance_of(Logger::SomeLogger).to receive(:log).and_return({ status: 'success', message: 'This will not get logged by the logger' })
     end
 
@@ -22,6 +22,9 @@ RSpec.describe NoDiService do
   context 'real logger' do
     # This test uses the logger and will log the message to the console
     # When we do this in tests, we are slowing down our tests and testing things that this test is not intended to be testing
+    # This gets heavy and messy when you have a lot of dependencies and models and they aren't injected
+    # it also makes changes harder to manage and can introduce bugs
+    # we are then hitting the database and other services which will slow down the test suite and make it brittle
     it 'logs' do
       described_class.call('This will get logged by the logger')
       expect_any_instance_of(Logger::SomeLogger).to receive(:log).with('This will get logged by the logger')
