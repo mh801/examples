@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ExampleController < ApplicationController
+class DiExampleController < ApplicationController
   def di_example
     response = DiService.call('di_example')
 
