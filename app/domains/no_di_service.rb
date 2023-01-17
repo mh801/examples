@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
 class NoDiService
+  extend Callable
+
   def call(msg)
-    Logger::SomeLogger.new.log(msg)
+    Logger::SimpleLogger.new.call(msg)
     { status: 'success', message: msg }
   end
-
-  def self.call(msg)
-    new.call(msg)
-  end
 end
+

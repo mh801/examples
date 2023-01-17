@@ -1,16 +1,13 @@
 # frozen_string_literal: true
 
 class DiService
-  def initialize(logger: Logger::SomeLogger.new)
+  extend Callable
+  def initialize(logger: Logger::SimpleLogger)
     @logger = logger
   end
 
   def call(msg)
-    @logger.log(msg)
+    @logger.new(level: :fatal).call(msg)
     { status: 'success', message: msg}
-  end
-
-  def self.call(msg)
-    new.call(msg)
   end
 end
